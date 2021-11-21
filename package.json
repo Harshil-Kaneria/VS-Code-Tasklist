@@ -1,0 +1,58 @@
+{
+	"name": "tasklist",
+	"displayName": "Tasklist",
+	"description": "This Extension is make for Developer those want to do list inside vs code and improve productivity",
+	"icon": "img/icon.png",
+	"version": "1.0.0",
+	"repository": {
+        "type": "git",
+        "url": "https://github.com/Harshil-Kaneria/VS-Code-Tasklist"
+    },
+	"keywords":[
+        "To DO",
+        "To-Do",
+        "Task",
+        "Task List",
+        "Harshil Kaneria"
+    ],
+    "publisher": "Harshil-Kaneria",
+	"engines": {
+		"vscode": "^1.62.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "tasklist.tasklist",
+				"title": "Open Task List",
+				"category": "Task List",
+				"icon": {
+					"light": "img/tasklist.svg",
+					"dark": "img/tasklist.svg"
+				}
+			}
+		]
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.62.0",
+		"@types/glob": "^7.1.4",
+		"@types/mocha": "^9.0.0",
+		"@types/node": "14.17.27",
+		"eslint": "^8.1.0",
+		"glob": "^7.1.7",
+		"mocha": "^9.1.3",
+		"typescript": "^4.4.4",
+		"@vscode/test-electron": "^1.6.2"
+	}
+}

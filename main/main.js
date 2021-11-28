@@ -3,12 +3,32 @@
 //store in localstorage of browser
 //delete list items
 
+const vscode = acquireVsCodeApi();
+
+function change_list(data=[])
+{
+    vscode.postMessage({
+        command: 'update',
+        text: data
+    });
+}
+
+function fill_input()
+{
+    vscode.postMessage({
+        command: 'fill_input',
+        text: 'Please Fill Input Box Properly'
+    });
+}
+
 
 var addButton = document.getElementById('addButton');
 var addInput = document.getElementById('itemInput');
 var todoList = document.getElementById('todoList');
+var main_data_list = document.getElementById('main_data_list');
 var listArray = [];
 //declare addToList function
+
 
 function listItemObj(content, status) {
     this.content = '';
@@ -16,18 +36,15 @@ function listItemObj(content, status) {
 }
 var changeToComp = function(){
     var parent = this.parentElement;
-    console.log('Changed to complete');
     parent.className = 'uncompleted well';
     this.innerText = 'Incomplete';
     this.removeEventListener('click',changeToComp);
     this.addEventListener('click',changeToInComp);
     changeListArray(parent.firstChild.innerText,'complete');
-
 }
 
 var changeToInComp = function(){
     var parent = this.parentElement;
-    console.log('Changed to incomplete');
     parent.className = 'completed well';
     this.innerText = 'Complete';
     this.removeEventListener('click',changeToInComp);
@@ -50,8 +67,6 @@ var removeItem = function(){
             break;
         }
     }
-
-
 }
 
 //function to change the todo list array
@@ -89,7 +104,6 @@ var createItemDom = function(text,status){
         itemCompBtn.addEventListener('click',changeToInComp);
     }
 
-
     itemIncompBtn.className = 'btn btn-danger';
     itemIncompBtn.innerText = 'Delete';
     itemIncompBtn.addEventListener('click',removeItem);
@@ -103,11 +117,18 @@ var createItemDom = function(text,status){
 
 var refreshLocal = function(){
     var todos = listArray;
-    localStorage.removeItem('todoList');
-    localStorage.setItem('todoList', JSON.stringify(todos));
+    // localStorage.removeItem('todoList');
+    // localStorage.setItem('todoList', JSON.stringify(todos));
+    change_list(JSON.stringify(todos));
 }
 
 var addToList = function(){
+
+    if(addInput.value==""){
+        fill_input();
+        return;
+    }
+
     var newItem = new listItemObj();
     newItem.content = addInput.value;
     listArray.push(newItem);
@@ -122,28 +143,36 @@ var addToList = function(){
 //function to clear todo list array
 var clearList = function(){
     listArray = [];
-    localStorage.removeItem('todoList');
+    // localStorage.removeItem('todoList');
+    change_list(JSON.stringify(listArray));
     todoList.innerHTML = '';
-
 }
 
 window.onload = function(){
-    var list = localStorage.getItem('todoList');
+
+    // var list = localStorage.getItem('todoList');
+
+    let list = main_data_list.innerHTML;
 
     if (list != null) {
         todos = JSON.parse(list);
         listArray = todos;
-
         for(var i=0; i<listArray.length;i++){
             var data = listArray[i].content;
-
             var item = createItemDom(data,listArray[i].status);
             todoList.appendChild(item);
         }
-
     }
-
 };
+
 //add an event binder to the button
 addButton.addEventListener('click',addToList);
 clearButton.addEventListener('click',clearList);
+
+
+document.getElementById("itemInput").addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        addButton.click();
+    }
+});

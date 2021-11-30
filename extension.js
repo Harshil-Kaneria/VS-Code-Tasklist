@@ -66,18 +66,34 @@ function getWebviewContent(base_url,data_list) {
 			<link href="${base_url}/main.css" rel="stylesheet">
 			<link href="${base_url}/bootstrap.min.css" rel="stylesheet">
 		</head>
-		<body>
+		<body class="bg-dark">
 		<div id="main_data_list" style="display:none">
 		</div>
 		<div class="container">
-			<h2 class="text-center">Task List App</h2>
+			<h2 class="text-center text-white">Todo List App</h2>
+				<hr class="bg-light">
 				<div class="form-group">
-					<label for="itemInput">Add Item</label>
-					<input type="text" class="form-control" name="" id="itemInput">
+					<div class="row">
+						<div class="col-1 text-center">
+							<label for="itemInput" class="text-white">Add Item</label>
+						</div>
+						<div class="col-11">
+							<input type="text" class="form-control" name="" id="itemInput" >
+						</div>
+					</div>
 				</div>
-				<button id="addButton" class="btn btn-primary">Add To List</button>
-				<button id="clearButton" class="btn btn-danger">Clear Todo List</button>
-			<h3>Todo List</h3>
+				<hr class="bg-info">
+				<div class="row mt-2">
+					<div class="col-2">
+						<button id="addButton" class="btn btn-primary mt-1">Add To List</button>
+					</div>
+					<div class="col-2">
+						<button id="clearButton" class="btn btn-danger mt-1">Clear Todo List</button>
+					</div>
+				</div>
+			<hr class="bg-danger">
+			<h3 class="text-warning mt-2">Todo List</h3>
+			<hr class="bg-warning">
 			<ul id="todoList"></ul>
 		</div>
 		<script type="text/javascript">

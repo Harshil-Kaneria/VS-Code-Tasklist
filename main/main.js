@@ -1,8 +1,3 @@
-//Todo list app by Afolabi Sheriff
-//features
-//store in localstorage of browser
-//delete list items
-
 const vscode = acquireVsCodeApi();
 
 function change_list(data=[])
@@ -36,17 +31,22 @@ function listItemObj(content, status) {
 }
 var changeToComp = function(){
     var parent = this.parentElement;
-    parent.className = 'uncompleted well';
+    console.log('Changed to complete');
+    parent.className = 'uncompleted alert alert-success row';
     this.innerText = 'Incomplete';
+    this.className = 'btn btn-dark col';
     this.removeEventListener('click',changeToComp);
     this.addEventListener('click',changeToInComp);
     changeListArray(parent.firstChild.innerText,'complete');
+
 }
 
 var changeToInComp = function(){
     var parent = this.parentElement;
-    parent.className = 'completed well';
+    console.log('Changed to incomplete');
+    parent.className = 'completed alert alert-danger row';
     this.innerText = 'Complete';
+    this.className = 'btn btn-success col';
     this.removeEventListener('click',changeToInComp);
     this.addEventListener('click',changeToComp);
 
@@ -84,31 +84,26 @@ var changeListArray = function(data,status){
 
 //function to chage the dom of the list of todo list
 var createItemDom = function(text,status){
-
     var listItem = document.createElement('li');
-
     var itemLabel = document.createElement('label');
-
     var itemCompBtn = document.createElement('button');
-
     var itemIncompBtn = document.createElement('button');
-
-    listItem.className = (status == 'incomplete')?'completed well':'uncompleted well';
-
+    listItem.className = (status == 'incomplete')?'completed alert alert-danger row':'uncompleted alert alert-success row';
     itemLabel.innerText = text;
-    itemCompBtn.className = 'btn btn-success';
+    itemLabel.className = 'col-8';
+    itemCompBtn.className = (status == 'incomplete')?'btn btn-success col':'btn btn-dark col';
     itemCompBtn.innerText = (status == 'incomplete')?'Complete':'Incomplete';
     if(status == 'incomplete'){
         itemCompBtn.addEventListener('click',changeToComp);
     }else{
         itemCompBtn.addEventListener('click',changeToInComp);
     }
-
-    itemIncompBtn.className = 'btn btn-danger';
+    itemIncompBtn.className = 'btn btn-danger col';
     itemIncompBtn.innerText = 'Delete';
     itemIncompBtn.addEventListener('click',removeItem);
 
     listItem.appendChild(itemLabel);
+    listItem.appendChild(document.createElement('p'));
     listItem.appendChild(itemCompBtn);
     listItem.appendChild(itemIncompBtn);
 

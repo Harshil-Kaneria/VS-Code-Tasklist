@@ -5,10 +5,8 @@
     list-style-type: none;
 }
 .completed{
-
 }
 .uncompleted label{
-    color: #afa7a7;
     text-decoration: line-through;
 }
 #todoList .btn{

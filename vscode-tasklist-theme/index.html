@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Todo list</title>
+        <link href="./css/main.css" rel="stylesheet">
+	    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body class="bg-dark">
+    <div class="container">
+    	<h2 class="text-center text-white">Todo List App</h2>
+            <hr class="bg-light">
+        	<div class="form-group">
+                <div class="row">
+                    <div class="col-1 text-center">
+                        <label for="itemInput" class="text-white">Add Item</label>
+                    </div>
+                    <div class="col-11">
+                        <input type="text" class="form-control" name="" id="itemInput" >
+                    </div>
+                </div>
+        	</div>
+            <hr class="bg-info">
+            <div class="row mt-2">
+                <div class="col-2">
+                    <button id="addButton" class="btn btn-primary mt-1">➕ Add To List</button>
+                </div>
+                <div class="col-2">
+                    <button id="clearButton" class="btn btn-danger mt-1">⛔ Clear Todo List</button>
+                </div>
+            </div>
+        <hr class="bg-danger">
+        <h3 class="text-warning mt-2">Todo List</h3>
+        <hr class="bg-warning">
+        <ul id="todoList" class="container">
+        </ul>
+    </div>
+    <script type="text/javascript" src="js/main.js"></script>
+  </body>
+</html>

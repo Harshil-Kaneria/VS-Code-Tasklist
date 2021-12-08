@@ -12,56 +12,58 @@ function fill_input()
 {
     vscode.postMessage({
         command: 'fill_input',
-        text: 'Please Fill Input Box Properly'
+        text: 'Please Fill Task Title Box Properly'
     });
 }
 
 
 var addButton = document.getElementById('addButton');
 var addInput = document.getElementById('itemInput');
+var addDetailsInput = document.getElementById('itemDetailsInput');
 var todoList = document.getElementById('todoList');
-var main_data_list = document.getElementById('main_data_list');
 var listArray = [];
 //declare addToList function
 
+function random_number(){
+    return (Math.floor(Math.random() * 1000) + 1).toString()+Date.now()+(Math.floor(Math.random() * 1000) + 1).toString();
+}
 
 function listItemObj(content, status) {
+    this.id = '';
     this.content = '';
+    this.details = '';
     this.status = 'incomplete';
 }
-var changeToComp = function(){
-    var parent = this.parentElement;
-    console.log('Changed to complete');
-    parent.className = 'uncompleted alert alert-success row';
-    this.innerText = 'Incomplete';
-    this.className = 'btn btn-dark col';
-    this.removeEventListener('click',changeToComp);
-    this.addEventListener('click',changeToInComp);
-    changeListArray(parent.firstChild.innerText,'complete');
+var changeToComp = function(item){
+
+    item.innerText = "⌛ Incomplete";
+    item.className = "btn btn-dark";
+    item.parentNode.parentNode.className = "uncompleted alert alert-success row";
+    item.setAttribute('onclick','changeToInComp(this)');
+    changeListArray(item.parentNode.previousElementSibling.previousElementSibling.innerText,'complete');
 
 }
 
-var changeToInComp = function(){
-    var parent = this.parentElement;
-    console.log('Changed to incomplete');
-    parent.className = 'completed alert alert-danger row';
-    this.innerText = 'Complete';
-    this.className = 'btn btn-success col';
-    this.removeEventListener('click',changeToInComp);
-    this.addEventListener('click',changeToComp);
-
-    changeListArray(parent.firstChild.innerText,'incomplete');
+var changeToInComp = function(item){
+    
+    item.innerText = "✔️ Complete";
+    item.className = "btn btn-success";
+    item.parentNode.parentNode.className = "completed alert alert-danger row";
+    item.setAttribute('onclick','changeToComp(this)');
+    changeListArray(item.parentNode.previousElementSibling.previousElementSibling.innerText,'incomplete');
 
 }
 
-var removeItem = function(){
-    var parent = this.parentElement.parentElement;
-    parent.removeChild(this.parentElement);
+var removeItem = function(item){
+    
+    var data = item.parentNode.previousElementSibling.previousElementSibling.previousElementSibling.innerText;
 
-    var data = this.parentElement.firstChild.innerText;
+
+    var parent = item.parentNode.parentNode;
+    parent.remove(this);
     for(var i=0; i < listArray.length; i++){
 
-        if(listArray[i].content == data){
+        if(listArray[i].id == data.trim()){
             listArray.splice(i,1);
             refreshLocal();
             break;
@@ -74,7 +76,7 @@ var changeListArray = function(data,status){
 
     for(var i=0; i < listArray.length; i++){
 
-        if(listArray[i].content == data){
+        if(listArray[i].id == data.trim()){
             listArray[i].status = status;
             refreshLocal();
             break;
@@ -82,32 +84,40 @@ var changeListArray = function(data,status){
     }
 }
 
+function htmlToElement(html) {
+    var template = document.createElement('template');
+    html = html.trim(); // Never return a text node of whitespace as the result
+    template.innerHTML = html;
+    return template.content.firstChild;
+}
+
 //function to chage the dom of the list of todo list
-var createItemDom = function(text,status){
-    var listItem = document.createElement('li');
-    var itemLabel = document.createElement('label');
-    var itemCompBtn = document.createElement('button');
-    var itemIncompBtn = document.createElement('button');
-    listItem.className = (status == 'incomplete')?'completed alert alert-danger row':'uncompleted alert alert-success row';
-    itemLabel.innerText = text;
-    itemLabel.className = 'col-8';
-    itemCompBtn.className = (status == 'incomplete')?'btn btn-success col':'btn btn-dark col';
-    itemCompBtn.innerText = (status == 'incomplete')?'Complete':'Incomplete';
-    if(status == 'incomplete'){
-        itemCompBtn.addEventListener('click',changeToComp);
-    }else{
-        itemCompBtn.addEventListener('click',changeToInComp);
-    }
-    itemIncompBtn.className = 'btn btn-danger col';
-    itemIncompBtn.innerText = 'Delete';
-    itemIncompBtn.addEventListener('click',removeItem);
+var createItemDom = function(text,status,details,id){
 
-    listItem.appendChild(itemLabel);
-    listItem.appendChild(document.createElement('p'));
-    listItem.appendChild(itemCompBtn);
-    listItem.appendChild(itemIncompBtn);
+    let div =  `
+        <li class="${status=='incomplete'?'completed alert alert-danger':'uncompleted alert alert-success'} row ">
 
-    return listItem;
+            <div style="display:none" class="col-12">
+                <label>${id}</label>
+            </div>
+            <div class="col-8">
+                <label>${text}</label>
+            </div>
+            <div class="col-2 text-center">
+                <button class="${status=='incomplete'?'btn btn-success':'btn btn-dark'}" onclick="${status=='incomplete'?'changeToComp(this)':'changeToInComp(this)'}">${status== 'incomplete'?'✔️ Complete':'⌛ Incomplete'}</button>
+            </div>
+            <div class="col-2 text-center">
+                <button class="btn btn-danger" onclick="removeItem(this)">❌ Delete</button>
+            </div>
+            <div class="col-12">
+                <label>${details}</label>
+            </div>
+            
+        </li>
+    `; 
+
+    listItem = htmlToElement(div);
+    return listItem;    
 }
 
 var refreshLocal = function(){
@@ -125,14 +135,18 @@ var addToList = function(){
     }
 
     var newItem = new listItemObj();
+    newItem.id = random_number();
     newItem.content = addInput.value;
+    newItem.details = addDetailsInput.value;
     listArray.push(newItem);
     //add to the local storage
     refreshLocal();
     //change the dom
-    var item = createItemDom(addInput.value,'incomplete');
+    var item = createItemDom(addInput.value,'incomplete',addDetailsInput.value,newItem.id);
     todoList.appendChild(item);
     addInput.value = '';
+    addDetailsInput.value = '';
+
 }
 
 //function to clear todo list array
@@ -154,7 +168,8 @@ window.onload = function(){
         listArray = todos;
         for(var i=0; i<listArray.length;i++){
             var data = listArray[i].content;
-            var item = createItemDom(data,listArray[i].status);
+            var details = listArray[i].details;
+            var item = createItemDom(data,listArray[i].status,details,listArray[i].id);
             todoList.appendChild(item);
         }
     }

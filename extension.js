@@ -74,27 +74,28 @@ function getWebviewContent(base_url,data_list) {
 				<hr class="bg-light">
 				<div class="form-group">
 					<div class="row">
-						<div class="col-1 text-center">
-							<label for="itemInput" class="text-white">Add Item</label>
+						<div class="col-12">
+							<input type="text" class="form-control" id="itemInput" placeholder="Enter Task Title Here ">
 						</div>
-						<div class="col-11">
-							<input type="text" class="form-control" name="" id="itemInput" >
+						<hr>
+						<div class="col-12">
+							<textarea  class="form-control" style="min-width: 100%" id="itemDetailsInput" placeholder="Enter Task More Details Here (Optional) "></textarea>
 						</div>
 					</div>
 				</div>
 				<hr class="bg-info">
 				<div class="row mt-2">
-					<div class="col-2">
-						<button id="addButton" class="btn btn-primary mt-1">Add To List</button>
-					</div>
-					<div class="col-2">
-						<button id="clearButton" class="btn btn-danger mt-1">Clear Todo List</button>
-					</div>
-				</div>
+                <div class="col-3">
+                    <button id="addButton" class="btn btn-primary mt-1">➕ Add To List</button>
+                </div>
+                <div class="col-3">
+                    <button id="clearButton" class="btn btn-danger mt-1">⛔ Clear Todo List</button>
+                </div>
+            </div>
 			<hr class="bg-danger">
 			<h3 class="text-warning mt-2">Todo List</h3>
 			<hr class="bg-warning">
-			<ul id="todoList"></ul>
+			<ul id="todoList" class="container"></ul>
 		</div>
 		<script type="text/javascript">
 			document.getElementById('main_data_list').innerHTML = JSON.stringify(${data_list});

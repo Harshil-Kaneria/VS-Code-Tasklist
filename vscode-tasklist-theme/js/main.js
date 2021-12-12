@@ -121,7 +121,7 @@ var updateEditButtonFunction = function(){
 
 var clearEditButtonFunction = function(){
     document.getElementById("itemInput").value = '';
-    document.getElementById("itemDetailsInput").innerText = '';
+    document.getElementById("itemDetailsInput").value = '';
 
     document.getElementById("clearEditButton").removeEventListener('click',clearEditButtonFunction);
     document.getElementById("editButton").removeEventListener('click',updateEditButtonFunction);
@@ -142,7 +142,7 @@ var clearEditButtonFunction = function(){
     document.getElementById('clearButton').innerText = '⛔ Clear Todo List';
     clearButton.addEventListener("click", clearList)
 
-    javascript:window.top.location.reload();
+    change_list_html();
 }
 
 
@@ -233,7 +233,9 @@ var clearList = function(){
 
 }
 
-window.onload = function(){
+function change_list_html(){
+
+    todoList.innerHTML = "";
     var list = localStorage.getItem('todoList');
 
     if (list != null) {
@@ -248,8 +250,12 @@ window.onload = function(){
         }
 
     }
+}
 
+window.onload = function(){
+    change_list_html();
 };
+
 //add an event binder to the button
 addButton.addEventListener('click',addToList);
 clearButton.addEventListener('click',clearList);

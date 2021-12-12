@@ -22,11 +22,23 @@ var addInput = document.getElementById('itemInput');
 var addDetailsInput = document.getElementById('itemDetailsInput');
 var todoList = document.getElementById('todoList');
 var listArray = [];
+var editItemId;
 //declare addToList function
 
 function random_number(){
     return (Math.floor(Math.random() * 1000) + 1).toString()+Date.now()+(Math.floor(Math.random() * 1000) + 1).toString();
 }
+
+function moveArrayItemToNewIndex(arr, old_index, new_index) {
+    if (new_index >= arr.length) {
+        var k = new_index - arr.length + 1;
+        while (k--) {
+            arr.push(undefined);
+        }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr; 
+};
 
 function listItemObj(content, status) {
     this.id = '';
@@ -34,6 +46,7 @@ function listItemObj(content, status) {
     this.details = '';
     this.status = 'incomplete';
 }
+
 var changeToComp = function(item){
 
     item.innerText = "⌛ Incomplete";
@@ -71,6 +84,92 @@ var removeItem = function(item){
     }
 }
 
+
+var editItem = function(item){
+
+    var data = item.parentNode.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerText.trim();
+
+    var title = item.parentNode.previousElementSibling.previousElementSibling.previousElementSibling.innerText.trim();
+    var content = item.parentNode.nextElementSibling.innerText.trim();
+
+    var id = item.parentNode.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerText.trim();
+
+    editItemId = id;
+
+    document.getElementById("itemInput").value = title;
+    document.getElementById("itemDetailsInput").innerText = content;
+
+    document.getElementById("itemInput").removeEventListener("keyup", function(event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+            addButton.click();
+        }
+    });
+
+    addButton.removeEventListener("click", addToList)
+    document.getElementById('addButton').id = 'editButton';
+    document.getElementById('editButton').innerText = '📝 Update';
+
+    clearButton.removeEventListener("click", clearList)
+    document.getElementById('clearButton').id = 'clearEditButton';
+    document.getElementById('clearEditButton').innerText = '⛔ Clear';
+
+    document.getElementById("clearEditButton").addEventListener('click',clearEditButtonFunction);
+
+    document.getElementById("editButton").addEventListener('click',updateEditButtonFunction);
+}
+
+
+var updateEditButtonFunction = function(){
+
+    if(addInput.value==""){
+        fill_input();
+        return;
+    }
+
+    data = editItemId;
+    for(var i=0; i < listArray.length; i++){
+
+        if(listArray[i].id == data.trim()){
+            listArray[i].content = addInput.value;
+            listArray[i].details = addDetailsInput.value;
+            refreshLocal();
+            break;
+        }
+    }
+    editItemId = 0;
+    clearEditButtonFunction();
+}
+
+var clearEditButtonFunction = function(){
+    document.getElementById("itemInput").value = '';
+    document.getElementById("itemDetailsInput").value = '';
+
+    document.getElementById("clearEditButton").removeEventListener('click',clearEditButtonFunction);
+    document.getElementById("editButton").removeEventListener('click',updateEditButtonFunction);
+
+
+    document.getElementById("itemInput").addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+            addButton.click();
+        }
+    });
+
+    document.getElementById('editButton').id = 'addButton';
+    document.getElementById('addButton').innerText = '➕ Add To List';
+    addButton.addEventListener("click", addToList)
+
+    document.getElementById('clearEditButton').id = 'clearButton';
+    document.getElementById('clearButton').innerText = '⛔ Clear Todo List';
+    clearButton.addEventListener("click", clearList)
+
+
+    main_data_list.innerHTML = JSON.stringify(listArray);
+    change_list_html();
+}
+
+
 //function to change the todo list array
 var changeListArray = function(data,status){
 
@@ -100,7 +199,7 @@ var createItemDom = function(text,status,details,id){
             <div style="display:none" class="col-12">
                 <label>${id}</label>
             </div>
-            <div class="col-8">
+            <div class="col-6">
                 <label>${text}</label>
             </div>
             <div class="col-2 text-center">
@@ -108,6 +207,9 @@ var createItemDom = function(text,status,details,id){
             </div>
             <div class="col-2 text-center">
                 <button class="btn btn-danger" onclick="removeItem(this)">❌ Delete</button>
+            </div>
+            <div class="col-2 text-center">
+                <button class="btn btn-primary" onclick="editItem(this)">📝 Edit</button>
             </div>
             <div class="col-12">
                 <label>${details}</label>
@@ -157,10 +259,10 @@ var clearList = function(){
     todoList.innerHTML = '';
 }
 
-window.onload = function(){
-
+function change_list_html(){
     // var list = localStorage.getItem('todoList');
 
+    todoList.innerHTML = "";
     let list = main_data_list.innerHTML;
 
     if (list != null) {
@@ -173,6 +275,10 @@ window.onload = function(){
             todoList.appendChild(item);
         }
     }
+}
+
+window.onload = function(){
+    change_list_html();
 };
 
 //add an event binder to the button

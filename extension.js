@@ -101,6 +101,25 @@ function getWebviewContent(base_url,data_list) {
 			document.getElementById('main_data_list').innerHTML = JSON.stringify(${data_list});
 		</script>
 		<script type="text/javascript" src="${base_url}/main.js"></script>
+		<script src = "${base_url}/jquery-1.10.2.js"></script>
+		<script src = "${base_url}/jquery-ui.js"></script>
+		<script>
+			$(function() {
+				$("#todoList").sortable({
+					start: function(event, ui) {
+						var start_pos = ui.item.index();
+						ui.item.data('start_pos', start_pos);
+					},
+					update: function(event, ui) {
+						var arr_pos_start = ui.item.data('start_pos');
+						var arr_pos_end = ui.item.index();
+						
+						listArray = moveArrayItemToNewIndex(listArray,arr_pos_start,arr_pos_end);
+						refreshLocal();
+					}
+				});
+			});
+		</script>
 	</body>
 	</html>`;
 }

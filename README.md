@@ -7,7 +7,7 @@ This Extension is make for Developer those want to do list inside vs code and im
 
 Command :- Open Task List
 
-![How To Open Image 1](https://raw.githubusercontent.com/Harshil-Kaneria/VS-Code-Tasklist/main/img/1.png)
+![How To Open Image 1](https://raw.githubusercontent.com/Harshil-Kaneria/VS-Code-Tasklist/main/img/1.gif)
 
 ### Features
 - Easy To Use
@@ -15,7 +15,7 @@ Command :- Open Task List
 - Change Proiority Using Sortable UI 
 - Easy Update Delete and change Task Status
 
-![How To Open Image 2](https://raw.githubusercontent.com/Harshil-Kaneria/VS-Code-Tasklist/main/img/2.png)
+![How To Open Image 2](https://raw.githubusercontent.com/Harshil-Kaneria/VS-Code-Tasklist/main/img/2.gif)
 
 
 ## Release Notes

@@ -65,61 +65,78 @@ function getWebviewContent(base_url,data_list) {
 			<title>Task List</title>
 			<link href="${base_url}/main.css" rel="stylesheet">
 			<link href="${base_url}/bootstrap.min.css" rel="stylesheet">
+	        <link href="${base_url}/jquery-confirm.css" rel="stylesheet">
 		</head>
 		<body class="bg-dark">
 		<div id="main_data_list" style="display:none">
 		</div>
 		<div class="container">
-			<h2 class="text-center text-white">Todo List App</h2>
-				<hr class="bg-light">
-				<div class="form-group">
-					<div class="row">
-						<div class="col-12">
-							<input type="text" class="form-control" id="itemInput" placeholder="Enter Task Title Here ">
+	    	<h2 class="text-center text-white">Todo List App</h2>
+	            <hr class="bg-light">
+	        	<div class="form-group">
+	                <div class="row">
+	                    
+	                    <div class="col-3">
+	                        <input type="text" class="form-control w-100" id="title_text" placeholder="Enter Task Title Here ">
+	                    </div>
+
+						<div class="col-3 form-group">
+							<input  class="btn bg-white form-control-sm w-100" id="tag_text" value="" placeholder="Tag (Optional)" />
 						</div>
-						<hr>
-						<div class="col-12">
-							<textarea  class="form-control" style="min-width: 100%" id="itemDetailsInput" placeholder="Enter Task More Details Here (Optional) "></textarea>
+						<div class="col-3 form-group">
+							<select id="priority_id" class="btn form-control-sm  bg-light w-100">
+								<option value=""  selected>Select Priority</option>
+								<option value="3" >High - ⏫</option>
+								<option value="2" >Med - ➖</option>
+								<option value="1" >Low - ⏬</option>
+							</select>
 						</div>
-					</div>
-				</div>
-				<hr class="bg-info">
-				<div class="row mt-2">
-                <div class="col-3">
-                    <button id="addButton" class="btn btn-primary mt-1">➕ Add To List</button>
-                </div>
-                <div class="col-3">
-                    <button id="clearButton" class="btn btn-danger mt-1">⛔ Clear Todo List</button>
-                </div>
-            </div>
-			<hr class="bg-danger">
-			<h3 class="text-warning mt-2">Todo List</h3>
-			<hr class="bg-warning">
-			<ul id="todoList" class="container"></ul>
-		</div>
-		<script type="text/javascript">
-			document.getElementById('main_data_list').innerHTML = JSON.stringify(${data_list});
-		</script>
-		<script type="text/javascript" src="${base_url}/main.js"></script>
+						<div class="col-3 form-group">
+							<select id="status_id" class="btn form-control-sm bg-light w-100">
+								<option value="1">Complete - ✔️</option>
+								<option value="2">In Progress - 🚀</option>
+								<option value="3" selected>In Complete - ⌛</option>
+								<option value="4">Hold - 🛑</option>
+							</select>
+						</div>
+
+	                    <hr>
+	                    
+	                    <div class="col-6">
+	                        <textarea  class="form-control w-100" style="min-width: 100%" id="description_text" placeholder="Enter Task More Details Here (Optional) "></textarea>
+	                    </div>
+						<div class="col-3 form-group">
+							<input id="start_date" class="btn btn-sm bg-light form-control-sm w-100" type="text" placeholder="Start Date (Optional)" onclick="(this.type='datetime-local');this.showPicker()"/>
+						</div>
+						<div class="col-3 form-group">
+							<input id="end_date" class="btn btn-sm bg-light form-control-sm w-100" type="text" placeholder="End Date (Optional)" onclick="(this.type='datetime-local');this.showPicker()"/>
+						</div>
+
+	                </div>
+	        	</div>
+	            <hr class="bg-info">
+	            <div class="row mt-2">
+	                <div class="col-12">
+	                    <button onclick="add_item_list()" id="add_item_list" class="btn btn-primary mt-1">➕ Add To List</button>
+	                    <button onclick="clear_full_list()" id="clear_full_list" class="btn btn-danger mt-1">⛔ Clear Todo List</button>
+
+	                    <button onclick="update_item_list()" data-id="" id="update_item_list" class="btn btn-primary mt-1 d-none">📝 Update</button>
+	                    <button onclick="clear_update_list()" id="clear_update_list" class="btn btn-danger mt-1 d-none">⛔ Clear</button>
+	                </div>
+	            </div>
+	        <hr class="bg-danger">
+	        <h3 class="text-warning mt-2">Todo List</h3>
+	        <hr class="bg-warning">
+	        <ul id="todoList" class="container">
+	        </ul>
+	    </div>
 		<script src = "${base_url}/jquery-1.10.2.js"></script>
-		<script src = "${base_url}/jquery-ui.js"></script>
-		<script>
-			$(function() {
-				$("#todoList").sortable({
-					start: function(event, ui) {
-						var start_pos = ui.item.index();
-						ui.item.data('start_pos', start_pos);
-					},
-					update: function(event, ui) {
-						var arr_pos_start = ui.item.data('start_pos');
-						var arr_pos_end = ui.item.index();
-						
-						listArray = moveArrayItemToNewIndex(listArray,arr_pos_start,arr_pos_end);
-						refreshLocal();
-					}
-				});
-			});
+	    <script src = "${base_url}/jquery-ui.js"></script>
+	    <script src = "${base_url}/jquery-confirm.js"></script>
+	    <script type="text/javascript">
+			$("#main_data_list").html(JSON.stringify(${data_list}))
 		</script>
+	    <script type="text/javascript" src="${base_url}/main.js"></script>
 	</body>
 	</html>`;
 }

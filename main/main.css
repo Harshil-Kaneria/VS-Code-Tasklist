@@ -4,11 +4,18 @@
 #todoList li{
     list-style-type: none;
 }
-.completed{
-}
-.uncompleted label{
+.done label{
     text-decoration: line-through;
 }
 #todoList .btn{
     margin-left: 10px;
+}
+.main_heading_task_list{
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main_description_task_list{
+    justify-content: space-between;
+    align-items: flex-start;
 }

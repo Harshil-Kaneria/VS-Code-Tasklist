@@ -3,7 +3,7 @@
 	"displayName": "Tasklist",
 	"description": "This Extension is make for Developer those want to do list inside vs code and improve productivity",
 	"icon": "img/icon.png",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"repository": {
         "type": "git",
         "url": "https://github.com/Harshil-Kaneria/VS-Code-Tasklist"

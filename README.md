@@ -17,8 +17,15 @@ Command :- Open Task List
 
 ![How To Open Image 2](https://raw.githubusercontent.com/Harshil-Kaneria/VS-Code-Tasklist/main/img/tl3.png)
 
+### Warning
+- We Are Using Local Files System For Data Saving If You Upgrade You Version You Have Lost You Task List Data. We Are Looking For Solution But Currently This issue is Not Solved. So Make Sure You Backup Your Task Data.
 
 ## Release Notes
+
+### 1.0.3 (Un Released)
+- Reduce Size & Deleted Unwanted Files For Saving Space.
+- Adding Filter To Make Task List More Usable.
+- Remove Unnecessary Space From List For Display More Task Items.
 
 ### 1.0.2
 - Adding New Priority Features With Simple Drop Down.

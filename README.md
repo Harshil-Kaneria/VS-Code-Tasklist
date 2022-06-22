@@ -7,7 +7,7 @@ This Extension is make for Developer those want to do list inside vs code and im
 
 Command :- Open Task List
 
-![How To Open Image 1](https://raw.githubusercontent.com/Harshil-Kaneria/VS-Code-Tasklist/main/img/1.gif)
+![How To Open Image 1](https://raw.githubusercontent.com/Harshil-Kaneria/VS-Code-Tasklist/main/img/tl_both.png)
 
 ### Features
 - Easy To Use

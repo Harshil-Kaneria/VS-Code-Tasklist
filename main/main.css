@@ -10,12 +10,26 @@
 #todoList .btn{
     margin-left: 10px;
 }
-.main_heading_task_list{
-    justify-content: space-between;
-    align-items: center;
+.description_text{
+    text-align: justify;
 }
-
-.main_description_task_list{
-    justify-content: space-between;
-    align-items: flex-start;
+@keyframes attention {
+    9% {
+        transform: none;
+    }
+    12% {
+        transform: scale(1.05);
+    }
+    16% {
+        transform: scale(0.95);
+    }
+    20% {
+        transform: scale(1.03);
+    }
+    24% {
+        transform: scale(1);
+    }
+}
+.animation{
+    animation: attention 5s ease infinite;
 }

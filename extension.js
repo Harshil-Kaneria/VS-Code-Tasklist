@@ -56,6 +56,7 @@ function initial_list(){
 	return `${main_data}`;
 }
 
+
 function deactivate() {}
 
 function getWebviewContent(base_url,data_list) {
@@ -71,7 +72,7 @@ function getWebviewContent(base_url,data_list) {
 		<div id="main_data_list" style="display:none">
 		</div>
 		<div class="container">
-	    	<h2 class="text-center text-white">Todo List App</h2>
+	    	<h2 class="text-center text-white animation">Task List</h2>
 	            <hr class="bg-light">
 	        	<div class="form-group">
 	                <div class="row">
@@ -115,17 +116,41 @@ function getWebviewContent(base_url,data_list) {
 	                </div>
 	        	</div>
 	            <hr class="bg-info">
-	            <div class="row mt-2">
-	                <div class="col-12">
-	                    <button onclick="add_item_list()" id="add_item_list" class="btn btn-primary mt-1">➕ Add To List</button>
-	                    <button onclick="clear_full_list()" id="clear_full_list" class="btn btn-danger mt-1">⛔ Clear Todo List</button>
+	            <div class="form-group row">
+					<div class="col-2">
+						<button onclick="add_item_list()" id="add_item_list" class="btn btn-sm btn-primary form-control-sm w-100">➕ Add To List</button>
 
-	                    <button onclick="update_item_list()" data-id="" id="update_item_list" class="btn btn-primary mt-1 d-none">📝 Update</button>
-	                    <button onclick="clear_update_list()" id="clear_update_list" class="btn btn-danger mt-1 d-none">⛔ Clear</button>
-	                </div>
-	            </div>
-	        <hr class="bg-danger">
-	        <h3 class="text-warning mt-2">Todo List</h3>
+						<button onclick="update_item_list()" data-id="" id="update_item_list" class="btn btn-sm btn-primary w-100 form-control-sm d-none">📝 Update</button>
+					</div>
+					<div class="col-2">
+						<button onclick="clear_full_list()" id="clear_full_list" class="btn btn-sm btn-danger form-control-sm w-100">⛔ Clear Todo List</button>
+
+						<button onclick="clear_update_list()" id="clear_update_list" class="btn btn-sm btn-danger form-control-sm w-100 d-none">⛔ Clear</button>
+					</div>
+					<div class="col-2">
+						<button onclick="reset_entry_form();list_html();" class="btn btn-sm btn-warning form-control-sm w-100">↻ Reset Filter</button>
+					</div>
+					<div class="col-2">
+						<input type="text" class="btn btn-sm form-control-sm w-100 bg-white" id="search_text" onkeyup="search_text()" placeholder="Search ..."/>
+					</div>
+					<div class="col-2">
+						<select id="search_priority_id" onchange="search_text()" class="btn btn-sm form-control-sm w-100 bg-white">
+							<option value=""  selected>Filter By Priority</option>
+							<option value="3" >High - ⏫</option>
+							<option value="2" >Med - ➖</option>
+							<option value="1" >Low - ⏬</option>
+						</select>
+					</div>
+					<div class="col-2">
+						<select id="search_status_id" onchange="search_text()" class="btn btn-sm form-control-sm w-100 bg-white">
+							<option value=""  selected>Filter By Status</option>
+							<option value="1">Complete - ✔️</option>
+							<option value="2">In Progress - 🚀</option>
+							<option value="3">In Complete - ⌛</option>
+							<option value="4">Hold - 🛑</option>
+						</select>
+					</div>
+            </div>
 	        <hr class="bg-warning">
 	        <ul id="todoList" class="container">
 	        </ul>

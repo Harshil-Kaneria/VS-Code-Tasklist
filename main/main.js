@@ -182,6 +182,9 @@ function reset_entry_form(){
     $("#end_date").val("");
     $('#start_date').attr('type', 'text')
     $('#end_date').attr('type', 'text')
+    $("#search_text").val("");
+    $("#search_priority_id").val("");
+    $("#search_status_id").val("");
 }
 
 function clear_update_list(){
@@ -277,7 +280,7 @@ function Update_Main_Data_File(){
 
 }
 
-function list_html(){
+function list_html(search_text="",search_priority_id="",search_status_id=""){
 
     $("#todoList").html("");
     // var list = localStorage.getItem('todoList');
@@ -285,11 +288,47 @@ function list_html(){
     if(list != null){
         todos = JSON.parse(list);
         MainDataArray = todos;
+
+        if(search_priority_id!="" || search_status_id!="" || search_text!=""){
+            if(search_priority_id!=""){
+                var regex = new RegExp(`^${search_priority_id}`,'gi');
+                todos = todos.filter(ele => {
+                    return ele.priority.match(regex)
+                });
+            }
+            if(search_status_id!=""){
+                var regex = new RegExp(`^${search_status_id}`,'gi');
+                todos = todos.filter(ele => {
+                    return ele.status.match(regex)
+                });
+            }
+            if(search_text!=""){
+                var regex = new RegExp(`^${search_text}`,'gi');
+                todos = todos.filter(ele => {
+                    return ele.title.match(regex) || ele.description.match(regex) || ele.tag.match(regex)
+                });
+            }
+            SearchDataArray = todos 
+
+            SearchDataArray.forEach(function(ele){
+                $("#todoList").append(generate_html_of_list(ele))
+            })
+            return 0;
+        }
+
         MainDataArray.forEach(function(ele){
             $("#todoList").append(generate_html_of_list(ele))
         })
+        reset_entry_form()
     }
 
+}
+
+function search_text(){
+    var seach_value = $("#search_text").val();
+    var search_priority_id = $("#search_priority_id").val();
+    var search_status_id = $("#search_status_id").val();
+    list_html(`${seach_value}`,`${search_priority_id}`,`${search_status_id}`);
 }
 
 function moveArrayItemToNewIndex(arr, old_index, new_index) {
@@ -309,7 +348,7 @@ function generate_html_of_list(ele){
     
         ${ele.status=="1"?'<li class="alert alert-success done row ">':''}
         ${ele.status=="2"?'<li class="alert alert-warning row ">':''}
-        ${ele.status=="3"?'<li class="alert alert-danger row ">':''}
+        ${ele.status=="3"?'<li class="alert alert-danger row test">':''}
         ${ele.status=="4"?'<li class="alert alert-secondary row ">':''}
 
             <div style="display:none" class="col-12">
@@ -339,12 +378,12 @@ function generate_html_of_list(ele){
                     </select>
                 </div>
                 <div class="col-1 form-group">
-                    <button class="btn btn-primary w-100" onclick="edit(${ele.id})">📝</button>
+                    <button class="btn btn-sm btn-primary w-100" onclick="edit(${ele.id})">📝</button>
                 </div>
             </div>
             <div class="mt-3 col-12 row">
                 <div class="col-5">
-                    <label>${ele.description}</label>
+                    <label class="description_text">${ele.description}</label>
                 </div>
                 <div class="col-3">
                     <input  class="btn btn-sm bg-light form-control-sm  w-100" type="${ele.start_date!=""?"datetime-local":"text"}" placeholder="Start Date" value="${ele.start_date}" onclick="(this.type='datetime-local');this.showPicker()" onchange="update_start_date(${ele.id},this.value)" />
@@ -353,7 +392,7 @@ function generate_html_of_list(ele){
                     <input  class="btn btn-sm bg-light form-control-sm w-100" type="${ele.end_date!=""?"datetime-local":"text"}" placeholder="End Date" value="${ele.end_date}" onclick="(this.type='datetime-local');this.showPicker()" onchange="update_end_date(${ele.id},this.value)" />
                 </div>
                 <div class="col-1">
-                    <button class="btn btn-danger w-100" onclick="remove(${ele.id})">❌</button>
+                    <button class="btn btn-sm btn-danger w-100" onclick="remove(${ele.id})">❌</button>
                 </div>
             </div>
         </li>

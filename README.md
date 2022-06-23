@@ -22,7 +22,7 @@ Command :- Open Task List
 
 ## Release Notes
 
-### 1.0.3 (Un Released)
+### 1.0.3
 - Reduce Size & Deleted Unwanted Files For Saving Space.
 - Adding Filter To Make Task List More Usable.
 - Remove Unnecessary Space From List For Display More Task Items.

@@ -5,6 +5,12 @@ const fs = require("fs");
  * @param {vscode.ExtensionContext} context
  */
 
+function createFile(mdp, frontmatter) {
+	if (!fs.existsSync(mdp)) {
+		fs.writeFileSync(mdp, frontmatter);
+	}
+}
+
 function activate(context) {
 
 	const commond_text = 'tasklist.tasklist';
@@ -33,9 +39,9 @@ function activate(context) {
 				}else if(message.command == "fill_input"){
 					vscode.window.showErrorMessage(message.text);
 				}
-			  },
-			  undefined,
-			  context.subscriptions
+			},
+			undefined,
+			context.subscriptions
 		);
 	});
 	context.subscriptions.push(disposable);
@@ -48,10 +54,17 @@ function activate(context) {
 }
 
 function manage_list(data=[]){
+	const file_generator = path.join(__dirname,`main/tasklist.txt`);
+	createFile(file_generator,`[]`)
+
 	fs.writeFileSync(path.join(__dirname,`main/tasklist.txt`), `${data}`)
 }
 
 function initial_list(){
+
+	const file_generator = path.join(__dirname,`main/tasklist.txt`);
+	createFile(file_generator,`[]`)
+
 	let main_data = fs.readFileSync(path.join(__dirname,`main/tasklist.txt`))
 	return `${main_data}`;
 }
